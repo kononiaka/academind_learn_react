@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 
 import classes from "./Cockpit.css";
+import AuthContext from "./../../context/auth-context";
 
-const Cockpit = ({ personsLength, showPersons, clicked, title }) => {
+const Cockpit = ({ personsLength, showPersons, clicked, title, login }) => {
+  const toggleBtnRef = useRef(null);
+
+  const authContext = useContext(AuthContext);
   useEffect(() => {
     console.log("[Cockpit.js] useEffect");
     //http.request
 
-    const timer = setTimeout(() => {
-      alert("Data has been fetched with a cloud!");
-    }, 1000);
+    // const timer = setTimeout(() => {
+    //   alert("Data has been fetched with a cloud!");
+    // }, 1000);
+    // toggleBtnRef.current.click();
 
     return () => {
-      clearTimeout(timer);
+      // clearTimeout(timer);
       console.log("[Cockpit.js] clean up work of useEffect");
     };
   }, []);
@@ -44,8 +49,11 @@ const Cockpit = ({ personsLength, showPersons, clicked, title }) => {
     <div className={classes.Cockpit}>
       <h1>{title}</h1>
       <p className={assignedClasses.join(" ")}>This is really working!</p>
-      <button className={classBtn} onClick={clicked}>
+      <button ref={toggleBtnRef} className={classBtn} onClick={clicked}>
         Switch Persons
+      </button>
+      <button className={classBtn} onClick={authContext.login}>
+        Log in
       </button>
     </div>
   );

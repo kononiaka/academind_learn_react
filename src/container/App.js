@@ -4,6 +4,7 @@ import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 import withClass from "../hoc/withClass";
 import Aux from "../hoc/Auxiliary";
+import AuthContext from "./../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends Component {
       showPersons: false,
       showCockpit: true,
       changedCounter: 0,
+      authenticated: false,
     };
   }
 
@@ -56,6 +58,11 @@ class App extends Component {
     this.setState({ persons });
   };
 
+  loginHander = () => {
+    console.log("clicked");
+    this.setState({ authenticated: true });
+  };
+
   // WARNING! To be deprecated in React v17. Use componentDidMount instead.
   // componentWillMount() {
   //   console.log("[App.js] componentWillMount");
@@ -67,7 +74,7 @@ class App extends Component {
 
   render() {
     console.log("[App.js] rendering...");
-    const { persons, showPersons } = this.state;
+    const { persons, showPersons, authenticated } = this.state;
     const { appTitle } = this.props;
 
     let personsList = null;
@@ -77,7 +84,8 @@ class App extends Component {
         <Persons
           persons={persons}
           clicked={this.deletePersonHandler}
-          changed={this.switchNameHandler}></Persons>
+          changed={this.switchNameHandler}
+          isAuthenticated={authenticated}></Persons>
       );
     }
 
@@ -89,14 +97,17 @@ class App extends Component {
           }}>
           Close Cockpit
         </button>
-        {this.state.showCockpit ? (
-          <Cockpit
-            title={appTitle}
-            personLength={persons.length}
-            clicked={this.toggleShowPersons}
-            showPersons={showPersons}></Cockpit>
-        ) : null}
-        {personsList}
+        <AuthContext.Provider
+          value={{ authenticated, login: this.loginHander }}>
+          {this.state.showCockpit ? (
+            <Cockpit
+              title={appTitle}
+              personLength={persons.length}
+              clicked={this.toggleShowPersons}
+              showPersons={showPersons}></Cockpit>
+          ) : null}
+          {personsList}
+        </AuthContext.Provider>
       </Aux>
     );
   }
@@ -104,4 +115,4 @@ class App extends Component {
 
 export default withClass(App, classes.App);
 
-//108
+//110
