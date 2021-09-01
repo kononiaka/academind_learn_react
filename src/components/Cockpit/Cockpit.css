@@ -6,7 +6,7 @@
   font-weight: bold;
 }
 
-.Cockpit button {
+.Button {
   background-color: green;
   color: white;
   border: 1px solid lightgreen;
@@ -15,13 +15,13 @@
   padding: 8px;
 }
 
-.Cockpit button:hover {
+.Button:hover {
   background-color: lightgreen;
   border: 1px solid green;
   color: #000;
 }
 
-.Cockpit button.Red {
+.Button.Red {
   background-color: red;
   color: black;
   border: 1px solid salmon;
@@ -29,7 +29,7 @@
   font: inherit;
   padding: 8px;
 }
-.Cockpit button.Red:hover {
+.Button.Red:hover {
   background-color: salmon;
   border: 1px solid red;
   color: #000;

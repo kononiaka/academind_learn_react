@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef } from "react";
 
 import classes from "./Cockpit.css";
-import AuthContext from "./../../context/auth-context";
+// import AuthContext from "./../../context/auth-context";
 
 const Cockpit = ({ personsLength, showPersons, clicked, title, login }) => {
   const toggleBtnRef = useRef(null);
 
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
   useEffect(() => {
     console.log("[Cockpit.js] useEffect");
     //http.request
@@ -32,8 +32,9 @@ const Cockpit = ({ personsLength, showPersons, clicked, title, login }) => {
 
   // useEffect();
 
-  let classBtn = "";
   const assignedClasses = [];
+  let classBtn = classes.Button;
+
   if (personsLength <= 2) {
     assignedClasses.push(classes.red);
   }
@@ -42,7 +43,7 @@ const Cockpit = ({ personsLength, showPersons, clicked, title, login }) => {
   }
 
   if (showPersons) {
-    classBtn = classes.Red;
+    classBtn = [classes.Button, classes.Red].join(" ");
   }
 
   return (
@@ -52,7 +53,7 @@ const Cockpit = ({ personsLength, showPersons, clicked, title, login }) => {
       <button ref={toggleBtnRef} className={classBtn} onClick={clicked}>
         Switch Persons
       </button>
-      <button className={classBtn} onClick={authContext.login}>
+      <button className={classBtn} onClick={login}>
         Log in
       </button>
     </div>

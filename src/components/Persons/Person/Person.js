@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import Aux from "../../../hoc/Auxiliary";
-import withClass from "../../../hoc/withClass";
 import classes from "./Person.css";
-import AuthContext from "./../../../context/auth-context";
+// import AuthContext from "./../../../context/auth-context";
+import { AuthContext } from "./../../../container/App";
+import withClassHOC from "./../../../hoc/withClassHOC";
+import Aux from "../../../hoc/Auxiliary";
 
 class Person extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Person extends Component {
     this.inputElementRef = React.createRef();
   }
 
-  static contextType = AuthContext;
+  // static contextType = AuthContext;
   // const rnd = Math.random();
 
   // if (rnd > 0.7) {
@@ -20,26 +21,31 @@ class Person extends Component {
   // }
 
   componentDidMount() {
-    this.inputElementRef.current.focus();
-    console.log(this.context.authenticated);
+    // if (this.props.position === 1) {
+    //   // this.inputElement.focus();
+    //   this.inputElementRef.current.focus();
+    // }
   }
+
+  inputFocus() {
+    this.inputElementRef.current.focus();
+  }
+
   render() {
     console.log("[Person.js] rendering...");
     const { name, age, children, click, changed } = this.props;
     return (
       <Aux>
-        {this.context.authenticated ? (
-          <p>Logged In!</p>
-        ) : (
-          <p>Please, authorized :(</p>
-        )}
+        <AuthContext.Consumer>
+          {auth => (auth ? <p>Logged In!</p> : <p>Please, authorized :(</p>)}
+        </AuthContext.Consumer>
         <h2 onClick={click}>
           I'm a {name} and I'm {age} years old!
         </h2>
         <p>{children}</p>
         <input
           type="text"
-          // ref={inputEl => (this.inputElement = inputEl)}
+          // ref={input => (this.inputElement = input)}
           ref={this.inputElementRef}
           onChange={changed}
           defaultValue={name}
@@ -50,10 +56,10 @@ class Person extends Component {
 }
 
 Person.propTypes = {
-  clicked: PropTypes.func,
+  click: PropTypes.func,
   name: PropTypes.string,
   age: PropTypes.number,
   changed: PropTypes.func,
 };
 
-export default withClass(Person, classes.Person);
+export default withClassHOC(Person, classes.Person);
